@@ -13,7 +13,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body style={{ fontFamily: "system-ui, sans-serif", background: "#f9f9f9", margin: 0 }}>
+      <body>
         {children}
       </body>
     </html>

@@ -5,6 +5,7 @@ import { filterRequests, parseStatusFilter } from "@/lib/logic";
 import { RequestForm } from "@/components/RequestForm";
 import { RequestList } from "@/components/RequestList";
 import { FilterTabs } from "@/components/FilterTabs";
+import Image from "next/image";
 
 type Props = {
   searchParams: Promise<{ filter?: string }>;
@@ -20,9 +21,26 @@ export default async function HomePage({ searchParams }: Props) {
 
   return (
     <main style={{ maxWidth: "720px", margin: "0 auto", padding: "2rem 1rem" }}>
-      <h1 style={{ fontSize: "1.5rem", fontWeight: 700, marginBottom: "1.5rem" }}>
-        Workshop Requests
-      </h1>
+      <div
+  style={{
+    display: "flex",
+    alignItems: "center",
+    gap: "12px",
+    marginBottom: "1.5rem",
+  }}
+>
+  <Image src="/logoAnak.png" alt="Anak logo" width={127} height={40} />
+
+  <h1
+    style={{
+      fontSize: "1.5rem",
+      fontWeight: 700,
+      margin: 0,
+    }}
+  >
+    Workshop Requests
+  </h1>
+</div>
 
       <RequestForm workCenters={workCenters} />
 
