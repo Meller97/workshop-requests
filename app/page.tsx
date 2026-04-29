@@ -1,0 +1,43 @@
+import { Suspense } from "react";
+import { getDb } from "@/lib/db";
+import { getRequests, getWorkCenters } from "@/lib/repositories";
+import { filterRequests, parseStatusFilter } from "@/lib/logic";
+import { RequestForm } from "@/components/RequestForm";
+import { RequestList } from "@/components/RequestList";
+import { FilterTabs } from "@/components/FilterTabs";
+
+type Props = {
+  searchParams: Promise<{ filter?: string }>;
+};
+
+export default async function HomePage({ searchParams }: Props) {
+  const { filter: rawFilter } = await searchParams;
+  const filter = parseStatusFilter(rawFilter);
+
+  const db = getDb();
+  const [allRequests, workCenters] = [getRequests(db), getWorkCenters(db)];
+  const requests = filterRequests(allRequests, filter);
+
+  return (
+    <main style={{ maxWidth: "720px", margin: "0 auto", padding: "2rem 1rem" }}>
+      <h1 style={{ fontSize: "1.5rem", fontWeight: 700, marginBottom: "1.5rem" }}>
+        Workshop Requests
+      </h1>
+
+      <RequestForm workCenters={workCenters} />
+
+      <section aria-label="Request list">
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "0.75rem" }}>
+          <h2 style={{ margin: 0, fontSize: "1rem", fontWeight: 600 }}>
+            Requests{" "}
+            <span style={{ color: "#888", fontWeight: 400 }}>({requests.length})</span>
+          </h2>
+        </div>
+        <Suspense fallback={null}>
+          <FilterTabs />
+        </Suspense>
+        <RequestList requests={requests} />
+      </section>
+    </main>
+  );
+}
