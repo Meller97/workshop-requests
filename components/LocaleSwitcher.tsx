@@ -14,7 +14,7 @@ export function LocaleSwitcher() {
   }
 
   return (
-    <div style={{ display: "flex", gap: "0.4rem" }}>
+    <div style={{ display: "flex", gap: "0.4rem", direction: "ltr" }}>
       {routing.locales.map((l) => (
         <button
           key={l}

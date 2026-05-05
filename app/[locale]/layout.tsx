@@ -3,6 +3,7 @@ import { hasLocale, NextIntlClientProvider } from "next-intl";
 import { getMessages, getTranslations, setRequestLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { routing } from "@/i18n/routing";
+import { LocaleSwitcher } from "@/components/LocaleSwitcher";
 import "../globals.css";
 
 type Props = {
@@ -42,6 +43,9 @@ export default async function LocaleLayout({ children, params }: Props) {
     <html lang={locale} dir={locale === "he" ? "rtl" : "ltr"}>
       <body>
         <NextIntlClientProvider messages={messages}>
+          <div style={{ position: "fixed", top: "1rem", right: "1rem", zIndex: 100 }}>
+            <LocaleSwitcher />
+          </div>
           {children}
         </NextIntlClientProvider>
       </body>

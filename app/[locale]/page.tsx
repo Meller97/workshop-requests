@@ -7,7 +7,6 @@ import { RequestForm } from "@/components/RequestForm";
 import { RequestList } from "@/components/RequestList";
 import { FilterTabs } from "@/components/FilterTabs";
 import Image from "next/image";
-import { LocaleSwitcher } from "@/components/LocaleSwitcher";
 
 type Props = {
   params: Promise<{ locale: string }>;
@@ -34,17 +33,14 @@ export default async function HomePage({ params, searchParams }: Props) {
         style={{
           display: "flex",
           alignItems: "center",
-          justifyContent: "space-between",
+          gap: "12px",
           marginBottom: "1.5rem",
         }}
       >
-        <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
-          <Image src="/logoAnak.png" alt={t("logoAlt")} width={127} height={40} />
-          <h1 style={{ fontSize: "1.5rem", fontWeight: 700, margin: 0 }}>
-            {t("heading")}
-          </h1>
-        </div>
-        <LocaleSwitcher />
+        <Image src="/logoAnak.png" alt={t("logoAlt")} width={127} height={40} />
+        <h1 style={{ fontSize: "1.5rem", fontWeight: 700, margin: 0 }}>
+          {t("heading")}
+        </h1>
       </div>
 
       <RequestForm workCenters={workCenters} />
