@@ -1,0 +1,49 @@
+{
+  "meta": {
+    "title": "בקשות מפעל",
+    "description": "הגש ועקוב אחר בקשות תחזוקה וציוד"
+  },
+  "page": {
+    "heading": "בקשות מפעל",
+    "requestsSection": "בקשות",
+    "logoAlt": "לוגו ענק"
+  },
+  "form": {
+    "heading": "בקשה חדשה",
+    "workCenterLabel": "אזור עבודה",
+    "workCenterPlaceholder": "בחר אזור עבודה",
+    "titleLabel": "כותרת",
+    "titlePlaceholder": "לדוגמה: החלפת מקדח שחוק ב-CNC-02",
+    "noteLabel": "הערה",
+    "noteOptional": "(אופציונלי)",
+    "notePlaceholder": "פרטים נוספים…",
+    "submit": "שלח בקשה",
+    "submitting": "שולח…"
+  },
+  "filters": {
+    "navLabel": "סנן בקשות",
+    "all": "הכל",
+    "open": "פתוח",
+    "done": "בוצע"
+  },
+  "list": {
+    "empty": "לא נמצאו בקשות."
+  },
+  "toggle": {
+    "open": "פתוח",
+    "done": "בוצע",
+    "ariaLabel": "סמן את הבקשה \"{title}\" כ{status}"
+  },
+  "validation": {
+    "workCenterRequired": "נדרש אזור עבודה",
+    "titleRequired": "נדרשת כותרת",
+    "titleTooLong": "הכותרת חייבת להיות עד 120 תווים",
+    "noteTooLong": "ההערה חייבת להיות עד 1000 תווים"
+  },
+  "errors": {
+    "saveFailed": "שמירת הבקשה נכשלה. נסה שוב.",
+    "invalidId": "מזהה בקשה לא תקין.",
+    "notFound": "הבקשה לא נמצאה.",
+    "updateFailed": "עדכון הסטטוס נכשל. נסה שוב."
+  }
+}

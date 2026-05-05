@@ -1,0 +1,49 @@
+{
+  "meta": {
+    "title": "Workshop Requests",
+    "description": "Submit and track maintenance and tooling requests"
+  },
+  "page": {
+    "heading": "Workshop Requests",
+    "requestsSection": "Requests",
+    "logoAlt": "Anak logo"
+  },
+  "form": {
+    "heading": "New Request",
+    "workCenterLabel": "Work Center",
+    "workCenterPlaceholder": "Select a work center",
+    "titleLabel": "Title",
+    "titlePlaceholder": "e.g. Replace worn drill bit on CNC-02",
+    "noteLabel": "Note",
+    "noteOptional": "(optional)",
+    "notePlaceholder": "Any additional details…",
+    "submit": "Submit Request",
+    "submitting": "Submitting…"
+  },
+  "filters": {
+    "navLabel": "Filter requests",
+    "all": "All",
+    "open": "Open",
+    "done": "Done"
+  },
+  "list": {
+    "empty": "No requests found."
+  },
+  "toggle": {
+    "open": "Open",
+    "done": "Done",
+    "ariaLabel": "Mark request \"{title}\" as {status}"
+  },
+  "validation": {
+    "workCenterRequired": "Work center is required",
+    "titleRequired": "Title is required",
+    "titleTooLong": "Title must be 120 characters or fewer",
+    "noteTooLong": "Note must be 1000 characters or fewer"
+  },
+  "errors": {
+    "saveFailed": "Failed to save request. Please try again.",
+    "invalidId": "Invalid request id.",
+    "notFound": "Request not found.",
+    "updateFailed": "Failed to update status. Please try again."
+  }
+}
