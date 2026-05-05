@@ -1,5 +1,5 @@
 import { Suspense } from "react";
-import { setRequestLocale } from "next-intl/server";
+import { getTranslations, setRequestLocale } from "next-intl/server";
 import { getDb } from "@/lib/db";
 import { getRequests, getWorkCenters } from "@/lib/repositories";
 import { filterRequests, parseStatusFilter } from "@/lib/logic";
@@ -20,6 +20,8 @@ export default async function HomePage({ params, searchParams }: Props) {
   const { filter: rawFilter } = await searchParams;
   const filter = parseStatusFilter(rawFilter);
 
+  const t = await getTranslations("page");
+
   const db = getDb();
   const allRequests = getRequests(db);
   const workCenters = getWorkCenters(db);
@@ -35,15 +37,15 @@ export default async function HomePage({ params, searchParams }: Props) {
           marginBottom: "1.5rem",
         }}
       >
-        <Image src="/logoAnak.png" alt="Anak logo" width={127} height={40} />
+        <Image src="/logoAnak.png" alt={t("logoAlt")} width={127} height={40} />
         <h1 style={{ fontSize: "1.5rem", fontWeight: 700, margin: 0 }}>
-          Workshop Requests
+          {t("heading")}
         </h1>
       </div>
 
       <RequestForm workCenters={workCenters} />
 
-      <section aria-label="Request list">
+      <section aria-label={t("requestListLabel")}>
         <div
           style={{
             display: "flex",
@@ -53,7 +55,7 @@ export default async function HomePage({ params, searchParams }: Props) {
           }}
         >
           <h2 style={{ margin: 0, fontSize: "1rem", fontWeight: 600 }}>
-            Requests{" "}
+            {t("requestsSection")}{" "}
             <span style={{ color: "#888", fontWeight: 400 }}>
               ({requests.length})
             </span>

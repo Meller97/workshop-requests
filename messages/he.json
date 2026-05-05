@@ -6,7 +6,8 @@
   "page": {
     "heading": "בקשות מפעל",
     "requestsSection": "בקשות",
-    "logoAlt": "לוגו ענק"
+    "logoAlt": "לוגו ענק",
+    "requestListLabel": "רשימת בקשות"
   },
   "form": {
     "heading": "בקשה חדשה",

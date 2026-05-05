@@ -6,7 +6,8 @@
   "page": {
     "heading": "Workshop Requests",
     "requestsSection": "Requests",
-    "logoAlt": "Anak logo"
+    "logoAlt": "Anak logo",
+    "requestListLabel": "Request list"
   },
   "form": {
     "heading": "New Request",
