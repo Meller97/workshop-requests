@@ -1,24 +1,34 @@
 import { z } from "zod";
 
-export const createRequestSchema = z.object({
-  work_center_id: z.coerce.number().int().positive("Work center is required"),
-  title: z
-    .string()
-    .min(1, "Title is required")
-    .max(120, "Title must be 120 characters or fewer"),
-  note: z.string().max(1000, "Note must be 1000 characters or fewer").optional(),
-});
+type ValidationMessages = {
+  workCenterRequired: string;
+  titleRequired: string;
+  titleTooLong: string;
+  noteTooLong: string;
+};
 
-export type CreateRequestData = z.infer<typeof createRequestSchema>;
+function buildSchema(msgs: ValidationMessages) {
+  return z.object({
+    work_center_id: z.coerce.number().int().positive(msgs.workCenterRequired),
+    title: z
+      .string()
+      .min(1, msgs.titleRequired)
+      .max(120, msgs.titleTooLong),
+    note: z.string().max(1000, msgs.noteTooLong).optional(),
+  });
+}
+
+export type CreateRequestData = z.infer<ReturnType<typeof buildSchema>>;
 
 export type ValidationResult<T> =
   | { success: true; data: T }
   | { success: false; errors: Record<string, string[]> };
 
 export function validateCreateRequest(
-  raw: unknown
+  raw: unknown,
+  msgs: ValidationMessages
 ): ValidationResult<CreateRequestData> {
-  const result = createRequestSchema.safeParse(raw);
+  const result = buildSchema(msgs).safeParse(raw);
   if (result.success) {
     return { success: true, data: result.data };
   }

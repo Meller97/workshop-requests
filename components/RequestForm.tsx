@@ -1,6 +1,7 @@
 "use client";
 
 import { useActionState, useRef, useEffect } from "react";
+import { useTranslations } from "next-intl";
 import { createRequestAction, type ActionState } from "@/app/actions";
 import type { WorkCenter } from "@/lib/repositories";
 
@@ -11,10 +12,10 @@ type Props = {
 const initial: ActionState = {};
 
 export function RequestForm({ workCenters }: Props) {
+  const t = useTranslations("form");
   const [state, formAction, pending] = useActionState(createRequestAction, initial);
   const formRef = useRef<HTMLFormElement>(null);
 
-  // Reset form on successful submission (no errors)
   useEffect(() => {
     if (!pending && !state.error && !state.fieldErrors) {
       formRef.current?.reset();
@@ -36,7 +37,7 @@ export function RequestForm({ workCenters }: Props) {
         marginBottom: "1.5rem",
       }}
     >
-      <h2 style={{ margin: 0, fontSize: "1rem", fontWeight: 600 }}>New Request</h2>
+      <h2 style={{ margin: 0, fontSize: "1rem", fontWeight: 600 }}>{t("heading")}</h2>
 
       {state.error && (
         <p role="alert" style={{ margin: 0, color: "#c62828", fontSize: "0.875rem" }}>
@@ -46,7 +47,7 @@ export function RequestForm({ workCenters }: Props) {
 
       <div>
         <label htmlFor="work_center_id" style={labelStyle}>
-          Work Center <span aria-hidden="true" style={{ color: "red" }}>*</span>
+          {t("workCenterLabel")} <span aria-hidden="true" style={{ color: "red" }}>*</span>
         </label>
         <select
           id="work_center_id"
@@ -56,7 +57,7 @@ export function RequestForm({ workCenters }: Props) {
           style={inputStyle}
         >
           <option value="" disabled>
-            Select a work center
+            {t("workCenterPlaceholder")}
           </option>
           {workCenters.map((wc) => (
             <option key={wc.id} value={wc.id}>
@@ -69,7 +70,7 @@ export function RequestForm({ workCenters }: Props) {
 
       <div>
         <label htmlFor="title" style={labelStyle}>
-          Title <span aria-hidden="true" style={{ color: "red" }}>*</span>
+          {t("titleLabel")} <span aria-hidden="true" style={{ color: "red" }}>*</span>
         </label>
         <input
           id="title"
@@ -77,7 +78,7 @@ export function RequestForm({ workCenters }: Props) {
           type="text"
           required
           maxLength={120}
-          placeholder="e.g. Replace worn drill bit on CNC-02"
+          placeholder={t("titlePlaceholder")}
           style={inputStyle}
         />
         <FieldError errors={state.fieldErrors?.title} />
@@ -85,14 +86,14 @@ export function RequestForm({ workCenters }: Props) {
 
       <div>
         <label htmlFor="note" style={labelStyle}>
-          Note <span style={{ color: "#999", fontWeight: 400 }}>(optional)</span>
+          {t("noteLabel")} <span style={{ color: "#999", fontWeight: 400 }}>{t("noteOptional")}</span>
         </label>
         <textarea
           id="note"
           name="note"
           rows={3}
           maxLength={1000}
-          placeholder="Any additional details…"
+          placeholder={t("notePlaceholder")}
           style={{ ...inputStyle, resize: "vertical" }}
         />
         <FieldError errors={state.fieldErrors?.note} />
@@ -113,7 +114,7 @@ export function RequestForm({ workCenters }: Props) {
           fontSize: "0.9rem",
         }}
       >
-        {pending ? "Submitting…" : "Submit Request"}
+        {pending ? t("submitting") : t("submit")}
       </button>
     </form>
   );

@@ -1,6 +1,7 @@
 "use client";
 
 import { useActionState } from "react";
+import { useTranslations } from "next-intl";
 import { toggleStatusAction, type ActionState } from "@/app/actions";
 import type { RequestWithWorkCenter } from "@/lib/repositories";
 
@@ -11,7 +12,10 @@ type Props = {
 const initial: ActionState = {};
 
 export function ToggleButton({ request }: Props) {
+  const t = useTranslations("toggle");
   const [state, formAction, pending] = useActionState(toggleStatusAction, initial);
+
+  const nextStatus = request.status === "open" ? "done" : "open";
 
   return (
     <form action={formAction}>
@@ -19,7 +23,7 @@ export function ToggleButton({ request }: Props) {
       <button
         type="submit"
         disabled={pending}
-        aria-label={`Mark request "${request.title}" as ${request.status === "open" ? "done" : "open"}`}
+        aria-label={t("ariaLabel", { title: request.title, status: t(nextStatus) })}
         style={{
           padding: "0.25rem 0.6rem",
           borderRadius: "4px",
@@ -31,7 +35,7 @@ export function ToggleButton({ request }: Props) {
           fontSize: "0.8rem",
         }}
       >
-        {request.status === "open" ? "Open" : "Done"}
+        {t(request.status)}
       </button>
       {state.error && (
         <span role="alert" style={{ color: "red", fontSize: "0.8rem", marginLeft: "0.4rem" }}>

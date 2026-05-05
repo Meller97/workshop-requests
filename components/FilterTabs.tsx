@@ -1,22 +1,20 @@
 "use client";
 
-import Link from "next/link";
+import { useTranslations } from "next-intl";
 import { useSearchParams } from "next/navigation";
+import { Link } from "@/i18n/navigation";
 import type { StatusFilter } from "@/lib/logic";
 
-const TABS: { label: string; value: StatusFilter }[] = [
-  { label: "All", value: "all" },
-  { label: "Open", value: "open" },
-  { label: "Done", value: "done" },
-];
+const TABS: StatusFilter[] = ["all", "open", "done"];
 
 export function FilterTabs() {
+  const t = useTranslations("filters");
   const searchParams = useSearchParams();
   const current = (searchParams.get("filter") ?? "all") as StatusFilter;
 
   return (
-    <nav aria-label="Filter requests" style={{ display: "flex", gap: "0.5rem", marginBottom: "1rem" }}>
-      {TABS.map(({ label, value }) => {
+    <nav aria-label={t("navLabel")} style={{ display: "flex", gap: "0.5rem", marginBottom: "1rem" }}>
+      {TABS.map((value) => {
         const href = value === "all" ? "/" : `/?filter=${value}`;
         const isActive = current === value;
         return (
@@ -34,7 +32,7 @@ export function FilterTabs() {
               color: isActive ? "#fff" : "#333",
             }}
           >
-            {label}
+            {t(value)}
           </Link>
         );
       })}

@@ -1,3 +1,4 @@
+import { getTranslations } from "next-intl/server";
 import type { RequestWithWorkCenter } from "@/lib/repositories";
 import { ToggleButton } from "./ToggleButton";
 
@@ -5,9 +6,11 @@ type Props = {
   requests: RequestWithWorkCenter[];
 };
 
-export function RequestList({ requests }: Props) {
+export async function RequestList({ requests }: Props) {
+  const t = await getTranslations("list");
+
   if (requests.length === 0) {
-    return <p style={{ color: "#888", marginTop: "1rem" }}>No requests found.</p>;
+    return <p style={{ color: "#888", marginTop: "1rem" }}>{t("empty")}</p>;
   }
 
   return (
