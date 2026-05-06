@@ -4,6 +4,8 @@ import { useLocale } from "next-intl";
 import { useSearchParams } from "next/navigation";
 import { usePathname, useRouter } from "@/i18n/navigation";
 import { routing } from "@/i18n/routing";
+import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
+import ToggleButton from "@mui/material/ToggleButton";
 
 export function LocaleSwitcher() {
   const locale = useLocale();
@@ -17,26 +19,21 @@ export function LocaleSwitcher() {
   }
 
   return (
-    <div style={{ display: "flex", gap: "0.4rem", direction: "ltr" }}>
-      {routing.locales.map((l) => (
-        <button
+    <ToggleButtonGroup value={locale} exclusive size="small" dir="ltr">
+      {routing.locales.map((l, i) => (
+        <ToggleButton
           key={l}
+          value={l}
           onClick={() => switchLocale(l)}
-          disabled={l === locale}
+          sx={{ px: 1.5, py: 0.5, fontSize: "0.8rem", fontWeight: 600 }}
           style={{
-            padding: "0.25rem 0.6rem",
-            borderRadius: "4px",
-            border: "1px solid #ccc",
-            cursor: l === locale ? "default" : "pointer",
-            background: l === locale ? "#1a1a1a" : "#fff",
-            color: l === locale ? "#fff" : "#333",
-            fontWeight: l === locale ? 600 : 400,
-            fontSize: "0.85rem",
+            borderRadius:
+              i === 0 ? "8px 0 0 8px" : "0 8px 8px 0",
           }}
         >
           {l.toUpperCase()}
-        </button>
+        </ToggleButton>
       ))}
-    </div>
+    </ToggleButtonGroup>
   );
 }
