@@ -4,6 +4,8 @@ import { useTranslations } from "next-intl";
 import { useSearchParams } from "next/navigation";
 import { Link } from "@/i18n/navigation";
 import type { StatusFilter } from "@/lib/logic";
+import Tabs from "@mui/material/Tabs";
+import Tab from "@mui/material/Tab";
 
 const TABS: StatusFilter[] = ["all", "open", "done"];
 
@@ -13,29 +15,26 @@ export function FilterTabs() {
   const current = (searchParams.get("filter") ?? "all") as StatusFilter;
 
   return (
-    <nav aria-label={t("navLabel")} style={{ display: "flex", gap: "0.5rem", marginBottom: "1rem" }}>
+    <Tabs
+      component="nav"
+      aria-label={t("navLabel")}
+      value={current}
+      sx={{ mb: 1.5, minHeight: "unset" }}
+    >
       {TABS.map((value) => {
         const href = value === "all" ? "/" : `/?filter=${value}`;
-        const isActive = current === value;
         return (
-          <Link
+          <Tab
             key={value}
+            value={value}
+            label={t(value)}
+            component={Link}
             href={href}
-            aria-current={isActive ? "page" : undefined}
-            style={{
-              padding: "0.35rem 0.9rem",
-              borderRadius: "4px",
-              border: "1px solid #ccc",
-              textDecoration: "none",
-              fontWeight: isActive ? 600 : 400,
-              background: isActive ? "#1a1a1a" : "#fff",
-              color: isActive ? "#fff" : "#333",
-            }}
-          >
-            {t(value)}
-          </Link>
+            aria-current={current === value ? "page" : undefined}
+            sx={{ minHeight: "unset", py: 0.75, textTransform: "none" }}
+          />
         );
       })}
-    </nav>
+    </Tabs>
   );
 }
