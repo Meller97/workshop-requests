@@ -4,6 +4,7 @@ import { getMessages, getTranslations, setRequestLocale } from "next-intl/server
 import { notFound } from "next/navigation";
 import { routing } from "@/i18n/routing";
 import { LocaleSwitcher } from "@/components/LocaleSwitcher";
+import ThemeRegistry from "@/components/ThemeRegistry";
 import "../globals.css";
 
 type Props = {
@@ -39,15 +40,19 @@ export default async function LocaleLayout({ children, params }: Props) {
 
   const messages = await getMessages();
 
+  const direction = locale === "he" ? "rtl" : "ltr";
+
   return (
-    <html lang={locale} dir={locale === "he" ? "rtl" : "ltr"}>
+    <html lang={locale} dir={direction}>
       <body>
-        <NextIntlClientProvider messages={messages}>
-          <div style={{ position: "fixed", top: "1rem", right: "1rem", zIndex: 100 }}>
-            <LocaleSwitcher />
-          </div>
-          {children}
-        </NextIntlClientProvider>
+        <ThemeRegistry direction={direction}>
+          <NextIntlClientProvider messages={messages}>
+            <div style={{ position: "fixed", top: "1rem", right: "1rem", zIndex: 100 }}>
+              <LocaleSwitcher />
+            </div>
+            {children}
+          </NextIntlClientProvider>
+        </ThemeRegistry>
       </body>
     </html>
   );
