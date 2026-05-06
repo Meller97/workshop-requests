@@ -26,6 +26,7 @@ export function RequestForm({ workCenters }: Props) {
     <form
       ref={formRef}
       action={formAction}
+      noValidate
       style={{
         display: "flex",
         flexDirection: "column",
