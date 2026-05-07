@@ -4,6 +4,13 @@ import { useActionState, useRef, useEffect } from "react";
 import { useTranslations } from "next-intl";
 import { createRequestAction, type ActionState } from "@/app/actions";
 import type { WorkCenter } from "@/lib/repositories";
+import Paper from "@mui/material/Paper";
+import Box from "@mui/material/Box";
+import Stack from "@mui/material/Stack";
+import Typography from "@mui/material/Typography";
+import TextField from "@mui/material/TextField";
+import Button from "@mui/material/Button";
+import Alert from "@mui/material/Alert";
 
 type Props = {
   workCenters: WorkCenter[];
@@ -23,129 +30,98 @@ export function RequestForm({ workCenters }: Props) {
   }, [pending, state]);
 
   return (
-    <form
-      ref={formRef}
-      action={formAction}
-      noValidate
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        gap: "0.75rem",
-        padding: "1.25rem",
-        border: "1px solid #e0e0e0",
-        borderRadius: "8px",
-        background: "#fff",
-        marginBottom: "1.5rem",
-      }}
-    >
-      <h2 style={{ margin: 0, fontSize: "1rem", fontWeight: 600 }}>{t("heading")}</h2>
+    <Paper variant="outlined" sx={{ p: 2.5 }}>
+      <Box component="form" ref={formRef} action={formAction} noValidate>
+        <Stack spacing={2}>
+          <Typography variant="subtitle1" component="h2" sx={{ fontWeight: 600 }}>
+            {t("heading")}
+          </Typography>
 
-      {state.error && (
-        <p role="alert" style={{ margin: 0, color: "#c62828", fontSize: "0.875rem" }}>
-          {state.error}
-        </p>
-      )}
+          {state.error && (
+            <Alert severity="error" role="alert">
+              {state.error}
+            </Alert>
+          )}
 
-      <div>
-        <label htmlFor="work_center_id" style={labelStyle}>
-          {t("workCenterLabel")} <span aria-hidden="true" style={{ color: "red" }}>*</span>
-        </label>
-        <select
-          id="work_center_id"
-          name="work_center_id"
-          required
-          defaultValue=""
-          style={inputStyle}
-        >
-          <option value="" disabled>
-            {t("workCenterPlaceholder")}
-          </option>
-          {workCenters.map((wc) => (
-            <option key={wc.id} value={wc.id}>
-              {wc.name}
+          <TextField
+            select
+            slotProps={{ select: { native: true }, inputLabel: { shrink: true } }}
+            id="work_center_id"
+            name="work_center_id"
+            label={t("workCenterLabel")}
+            required
+            defaultValue=""
+            size="small"
+            error={!!state.fieldErrors?.work_center_id?.length}
+            helperText={<FieldErrors errors={state.fieldErrors?.work_center_id} />}
+          >
+            <option value="" disabled>
+              {t("workCenterPlaceholder")}
             </option>
-          ))}
-        </select>
-        <FieldError errors={state.fieldErrors?.work_center_id} />
-      </div>
+            {workCenters.map((wc) => (
+              <option key={wc.id} value={wc.id}>
+                {wc.name}
+              </option>
+            ))}
+          </TextField>
 
-      <div>
-        <label htmlFor="title" style={labelStyle}>
-          {t("titleLabel")} <span aria-hidden="true" style={{ color: "red" }}>*</span>
-        </label>
-        <input
-          id="title"
-          name="title"
-          type="text"
-          required
-          maxLength={120}
-          placeholder={t("titlePlaceholder")}
-          style={inputStyle}
-        />
-        <FieldError errors={state.fieldErrors?.title} />
-      </div>
+          <TextField
+            id="title"
+            name="title"
+            type="text"
+            label={t("titleLabel")}
+            placeholder={t("titlePlaceholder")}
+            required
+            slotProps={{ htmlInput: { maxLength: 120 } }}
+            size="small"
+            error={!!state.fieldErrors?.title?.length}
+            helperText={<FieldErrors errors={state.fieldErrors?.title} />}
+          />
 
-      <div>
-        <label htmlFor="note" style={labelStyle}>
-          {t("noteLabel")} <span style={{ color: "#999", fontWeight: 400 }}>{t("noteOptional")}</span>
-        </label>
-        <textarea
-          id="note"
-          name="note"
-          rows={3}
-          maxLength={1000}
-          placeholder={t("notePlaceholder")}
-          style={{ ...inputStyle, resize: "vertical" }}
-        />
-        <FieldError errors={state.fieldErrors?.note} />
-      </div>
+          <TextField
+            id="note"
+            name="note"
+            label={
+              <>
+                {t("noteLabel")}{" "}
+                <Box component="span" sx={{ fontSize: "0.8em", color: "text.secondary", fontWeight: 400 }}>
+                  {t("noteOptional")}
+                </Box>
+              </>
+            }
+            placeholder={t("notePlaceholder")}
+            multiline
+            rows={3}
+            slotProps={{ htmlInput: { maxLength: 1000 } }}
+            size="small"
+            error={!!state.fieldErrors?.note?.length}
+            helperText={<FieldErrors errors={state.fieldErrors?.note} />}
+            sx={{ "& textarea": { resize: "vertical" } }}
+          />
 
-      <button
-        type="submit"
-        disabled={pending}
-        style={{
-          alignSelf: "flex-start",
-          padding: "0.5rem 1.2rem",
-          background: "#1a1a1a",
-          color: "#fff",
-          border: "none",
-          borderRadius: "5px",
-          cursor: pending ? "wait" : "pointer",
-          fontWeight: 600,
-          fontSize: "0.9rem",
-        }}
-      >
-        {pending ? t("submitting") : t("submit")}
-      </button>
-    </form>
+          <Button
+            type="submit"
+            variant="contained"
+            disabled={pending}
+            sx={{ alignSelf: "flex-start", textTransform: "none", fontWeight: 600 }}
+          >
+            {pending ? t("submitting") : t("submit")}
+          </Button>
+        </Stack>
+      </Box>
+    </Paper>
   );
 }
 
-function FieldError({ errors }: { errors?: string[] }) {
+function FieldErrors({ errors }: { errors?: string[] }) {
   if (!errors?.length) return null;
   return (
-    <ul role="alert" style={{ margin: "0.2rem 0 0", padding: 0, listStyle: "none" }}>
+    <>
       {errors.map((e) => (
-        <li key={e} style={{ color: "#c62828", fontSize: "0.8rem" }}>
+        <Box component="span" key={e} sx={{ display: "block" }}>
           {e}
-        </li>
+        </Box>
       ))}
-    </ul>
+    </>
   );
 }
-
-const labelStyle: React.CSSProperties = {
-  display: "block",
-  marginBottom: "0.25rem",
-  fontWeight: 500,
-  fontSize: "0.875rem",
-};
-
-const inputStyle: React.CSSProperties = {
-  width: "100%",
-  padding: "0.4rem 0.6rem",
-  border: "1px solid #ccc",
-  borderRadius: "4px",
-  fontSize: "0.9rem",
-  boxSizing: "border-box",
-};
