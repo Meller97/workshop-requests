@@ -4,6 +4,8 @@ import { useActionState } from "react";
 import { useTranslations } from "next-intl";
 import { toggleStatusAction, type ActionState } from "@/app/actions";
 import type { RequestWithWorkCenter } from "@/lib/repositories";
+import Button from "@mui/material/Button";
+import Typography from "@mui/material/Typography";
 
 type Props = {
   request: RequestWithWorkCenter;
@@ -16,31 +18,40 @@ export function ToggleButton({ request }: Props) {
   const [state, formAction, pending] = useActionState(toggleStatusAction, initial);
 
   const nextStatus = request.status === "open" ? "done" : "open";
+  const isOpen = request.status === "open";
 
   return (
     <form action={formAction}>
       <input type="hidden" name="id" value={request.id} />
-      <button
+      <Button
         type="submit"
+        variant="outlined"
+        size="small"
         disabled={pending}
         aria-label={t("ariaLabel", { title: request.title, status: t(nextStatus) })}
-        style={{
-          padding: "0.25rem 0.6rem",
-          borderRadius: "4px",
-          border: "1px solid #ccc",
-          cursor: pending ? "wait" : "pointer",
-          background: request.status === "open" ? "#e8f5e9" : "#f5f5f5",
-          color: request.status === "open" ? "#2e7d32" : "#555",
-          fontWeight: 500,
+        sx={{
           fontSize: "0.8rem",
+          textTransform: "none",
+          borderColor: isOpen ? "success.light" : "divider",
+          color: isOpen ? "success.dark" : "text.secondary",
+          backgroundColor: isOpen ? "success.50" : "grey.50",
+          "&:hover": {
+            borderColor: isOpen ? "success.main" : "text.secondary",
+            backgroundColor: isOpen ? "success.100" : "grey.100",
+          },
         }}
       >
         {t(request.status)}
-      </button>
+      </Button>
       {state.error && (
-        <span role="alert" style={{ color: "red", fontSize: "0.8rem", marginLeft: "0.4rem" }}>
+        <Typography
+          role="alert"
+          variant="caption"
+          color="error"
+          sx={{ ml: 1 }}
+        >
           {state.error}
-        </span>
+        </Typography>
       )}
     </form>
   );
