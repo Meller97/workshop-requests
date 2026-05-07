@@ -1,5 +1,6 @@
 "use client";
 
+import { useMemo } from "react";
 import { AppRouterCacheProvider } from "@mui/material-nextjs/v16-appRouter";
 import { ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -13,7 +14,7 @@ interface Props {
 }
 
 export default function ThemeRegistry({ children, direction = "ltr" }: Props) {
-  const theme = buildTheme(direction);
+  const theme = useMemo(() => buildTheme(direction), [direction]);
 
   return (
     <AppRouterCacheProvider

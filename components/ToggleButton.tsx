@@ -34,10 +34,10 @@ export function ToggleButton({ request }: Props) {
           textTransform: "none",
           borderColor: isOpen ? "success.light" : "divider",
           color: isOpen ? "success.dark" : "text.secondary",
-          backgroundColor: isOpen ? "success.50" : "grey.50",
+          backgroundColor: isOpen ? "#e8f5e9" : "grey.50",
           "&:hover": {
             borderColor: isOpen ? "success.main" : "text.secondary",
-            backgroundColor: isOpen ? "success.100" : "grey.100",
+            backgroundColor: isOpen ? "#c8e6c9" : "grey.100",
           },
         }}
       >

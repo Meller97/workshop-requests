@@ -27,7 +27,7 @@ export async function RequestList({ requests }: Props) {
   return (
     <Stack component="ul" spacing={1} sx={{ listStyle: "none", p: 0, m: 0 }}>
       {requests.map((req) => (
-        <Card component="li" key={req.id} variant="outlined" sx={{ background: "grey.50" }}>
+        <Card component="li" key={req.id} variant="outlined" sx={{ bgcolor: "grey.50" }}>
           <CardContent
             sx={{
               display: "flex",
